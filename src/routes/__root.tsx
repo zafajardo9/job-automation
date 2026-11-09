@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import {
   HeadContent,
   Outlet,
@@ -9,8 +9,9 @@ import { ReactGrab } from '~/components/react-grab'
 import { SiteFooter } from '~/components/site-footer'
 import { SiteHeader } from '~/components/site-header'
 import { getViewer } from '~/features/auth/session'
+import type { Appearance } from '~/features/settings/appearance'
 import { appDescription, appName } from '~/lib/app'
-import { themeInitScript } from '~/lib/theme'
+import { syncTheme, themeInitScript } from '~/lib/theme'
 import appCss from '~/styles/app.css?url'
 
 export const Route = createRootRoute({
@@ -48,7 +49,7 @@ export const Route = createRootRoute({
 function RootComponent() {
   const { viewer } = Route.useRouteContext()
   return (
-    <RootDocument>
+    <RootDocument appearance={viewer.user?.appearance}>
       <div className="flex min-h-svh flex-col">
         <SiteHeader signedIn={Boolean(viewer.user)} />
         <main className="flex-1">
@@ -61,9 +62,15 @@ function RootComponent() {
   )
 }
 
-function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
+function RootDocument({ children, appearance }: Readonly<{ children: ReactNode; appearance?: Appearance }>) {
+  const theme = appearance?.theme
+  useEffect(() => {
+    if (theme) return syncTheme(theme)
+  }, [theme])
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme={theme} data-accent={appearance?.accent}
+      data-text-size={appearance?.textSize} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <HeadContent />

@@ -16,6 +16,7 @@ const envSchema = z.object({
   BETTER_AUTH_URL: optional(z.url({ protocol: /^https?$/ })),
   BRAVE_SEARCH_API_KEY: optional(z.string().min(1)),
   GEMINI_API_KEY: optional(z.string().min(1)),
+  SETTINGS_ENCRYPTION_SECRET: optional(z.string().min(32)),
   GEMINI_MODEL: z.preprocess(
     (value) => value === '' ? undefined : value,
     z.string().regex(/^gemini-[a-z0-9.-]+$/).default('gemini-3.5-flash'),

@@ -43,7 +43,7 @@ export function SiteHeader({ signedIn }: { signedIn: boolean }) {
           </nav>
         )}
         <div className="flex items-center gap-2">
-          <ThemeToggle />
+          {!signedIn && <ThemeToggle />}
           {signedIn ? (
             <>
               <Button variant="ghost" size="sm" disabled={signingOut} onClick={signOut}>Log out</Button>

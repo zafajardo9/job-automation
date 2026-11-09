@@ -12,8 +12,10 @@ PostgreSQL, and the [Genesis design system](./DESIGN.md).
 - **Resume** accepts text-based PDF and DOCX files up to 5 MB. The server keeps
   the extracted text and reviews and discards the uploaded file. Replacing or
   deleting the resume clears its reviews.
-- **Profile** stores private professional details and LinkedIn, GitHub, and
-  labeled portfolio links.
+- **Profile** stores private professional details, target role, summary,
+  experience by area and duration, and LinkedIn, GitHub, and portfolio links.
+- **Settings** saves the account's theme, accent color, and text size. Users
+  can add, replace, or remove a personal Gemini API key.
 
 ## Local setup
 
@@ -52,13 +54,18 @@ component stack and source location, then paste that into your coding agent.
   without it. JobFinder fetches descriptions only on request from publicly
   accessible HTTP or HTTPS pages. Login walls, JavaScript-only pages, and
   unavailable postings can use the paste form.
-- Set `GEMINI_API_KEY` from a billing-enabled Gemini API project. Keep
+- Add a key from a billing-enabled Gemini API project in **Settings**. A
+  personal key takes precedence for both kinds of review. Set
+  `GEMINI_API_KEY` on the server to offer a shared fallback. Keep
   `GEMINI_MODEL` at `gemini-3.5-flash` or set it to another model that supports
   structured outputs. The upload works without an API key. A review sends
   extracted resume text and, for a fit review, the job description to Gemini.
   The scores estimate ATS readiness and job fit from the supplied text.
 
-Keep the keys and auth secret in server environment variables. Use HTTPS and
+Personal keys are encrypted in PostgreSQL using a key derived from
+`SETTINGS_ENCRYPTION_SECRET` or, by default, `BETTER_AUTH_SECRET`. Keep the
+encryption secret stable. Changing it requires users to re-enter their keys.
+Use HTTPS and
 matching URLs when hosting the workspace. Keep SQL logging disabled on
 instances that store real resumes.
 

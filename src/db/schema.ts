@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm'
 import {
   boolean,
   index,
+  integer,
   jsonb,
   pgEnum,
   pgTable,
@@ -13,6 +14,9 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 import type { AtsReview, FitReview } from '../features/resume/review'
+import type { ResumeDraft } from '../features/resume-builder/draft'
+import type { Experience } from '../features/profile/experience'
+import { defaultAppearance, type Appearance } from '../features/settings/appearance'
 import { jobStatuses } from '../lib/job-status'
 
 export const jobStatus = pgEnum('job_status', jobStatuses)
@@ -30,6 +34,9 @@ export const users = pgTable(
     image: text('image'),
     headline: varchar('headline', { length: 160 }),
     location: varchar('location', { length: 160 }),
+    targetRole: varchar('target_role', { length: 160 }),
+    summary: text('summary'),
+    experience: jsonb('experience').$type<Experience[]>().notNull().default([]),
     linkedinUrl: text('linkedin_url'),
     githubUrl: text('github_url'),
     portfolioLinks: jsonb('portfolio_links').$type<{ label: string; url: string }[]>().notNull().default([]),
@@ -38,6 +45,14 @@ export const users = pgTable(
   },
   (table) => [uniqueIndex('users_email_unique').on(table.email)],
 )
+
+export const userSettings = pgTable('user_settings', {
+  userId: uuid('user_id').primaryKey().references(() => users.id, { onDelete: 'cascade' }),
+  theme: text('theme').$type<Appearance['theme']>().notNull().default(defaultAppearance.theme),
+  accent: text('accent').$type<Appearance['accent']>().notNull().default(defaultAppearance.accent),
+  textSize: text('text_size').$type<Appearance['textSize']>().notNull().default(defaultAppearance.textSize),
+  encryptedGeminiKey: text('encrypted_gemini_key'),
+})
 
 export const sessions = pgTable('sessions', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -110,6 +125,12 @@ export const resumes = pgTable('resumes', {
   content: text('content').notNull(),
   review: jsonb('review').$type<AtsReview>(),
   createdAt: createdAt(),
+})
+
+export const resumeDrafts = pgTable('resume_drafts', {
+  userId: uuid('user_id').primaryKey().references(() => users.id, { onDelete: 'cascade' }),
+  draft: jsonb('draft').$type<ResumeDraft>().notNull(),
+  revision: integer('revision').notNull().default(1),
 })
 
 export const jobReviews = pgTable('job_reviews', {

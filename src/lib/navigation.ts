@@ -3,4 +3,5 @@ export const navigation = [
   { to: '/workspace/saved', label: 'Saved Jobs', exact: false },
   { to: '/workspace/resume', label: 'Resume', exact: true },
   { to: '/workspace/profile', label: 'Profile', exact: true },
+  { to: '/workspace/settings', label: 'Settings', exact: true },
 ] as const

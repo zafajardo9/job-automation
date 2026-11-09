@@ -1,8 +1,8 @@
 import '@tanstack/react-start/server-only'
 import { load } from 'cheerio'
 import { fromBuffer, type ZipFile } from 'yauzl'
+import { maxResumeBytes } from './file-limits'
 
-export const maxResumeBytes = 5 * 1024 * 1024
 const maxXmlBytes = 2 * 1024 * 1024
 const maxTextLength = 30_000
 

@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { getDb } from '~/db/client'
 import { jobReviews, jobs, resumes, users } from '~/db/schema'
 import { requireUser } from '~/features/auth/session.server'
-import { env } from '~/lib/env'
+import { geminiKeyStatus } from '~/features/settings/gemini-key.server'
 import { reviewJobFit, reviewResume } from './gemini.server'
 import { WorkspaceError } from '~/lib/workspace-error.server'
 
@@ -22,7 +22,8 @@ export const getResume = createServerFn({ method: 'GET' }).handler(async () => {
     createdAt: resumes.createdAt,
     review: resumes.review,
   }).from(resumes).where(eq(resumes.userId, userId))
-  return { resume: resume ?? null, reviewEnabled: Boolean(env.GEMINI_API_KEY) }
+  const { personal, shared } = await geminiKeyStatus(userId)
+  return { resume: resume ?? null, reviewEnabled: personal || shared }
 })
 
 export const deleteResume = createServerFn({ method: 'POST' })
@@ -36,7 +37,7 @@ export const runResumeReview = createServerFn({ method: 'POST' })
     const userId = await requireUser()
     const resume = await activeResume(userId)
     if (resume.id !== resumeId) throw new WorkspaceError('The resume changed. Reload before reviewing it.')
-    const review = await reviewResume(resume.content)
+    const review = await reviewResume(userId, resume.content)
     const [updated] = await getDb().update(resumes).set({ review })
       .where(and(eq(resumes.id, resumeId), eq(resumes.userId, userId)))
       .returning({ id: resumes.id })
@@ -52,7 +53,7 @@ export const runJobReview = createServerFn({ method: 'POST' })
     if (!job?.description) throw new WorkspaceError('Save a job description before running a fit review.')
     const resume = await activeResume(userId)
     if (resume.id !== data.resumeId) throw new WorkspaceError('The resume changed. Reload before reviewing it.')
-    const review = await reviewJobFit(resume.content, job.description)
+    const review = await reviewJobFit(userId, resume.content, job.description)
 
     await db.transaction(async (tx) => {
       await tx.select({ id: users.id }).from(users).where(eq(users.id, userId)).for('update')

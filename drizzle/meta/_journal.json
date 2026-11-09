@@ -15,6 +15,20 @@
       "when": 1794197613114,
       "tag": "0001_lush_overlord",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794225815328,
+      "tag": "0002_cloudy_rafael_vega",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794229954298,
+      "tag": "0003_chief_ironclad",
+      "breakpoints": true
     }
   ]
 }

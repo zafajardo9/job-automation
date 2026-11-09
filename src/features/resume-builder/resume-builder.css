@@ -1,0 +1,182 @@
+.resume-paper {
+  box-sizing: border-box;
+  min-height: 0;
+  aspect-ratio: 210 / 297;
+  padding: clamp(16px, 3vw, 38px);
+  background: #fff;
+  color: #171717;
+  line-height: 1.32;
+  overflow-wrap: anywhere;
+  border: 1px solid #e2e5e9;
+  box-shadow: 0 2px 8px #18202b0d;
+}
+
+.resume-paper h2,
+.resume-paper h3,
+.resume-paper h4 {
+  font: inherit;
+  font-weight: 700;
+  text-wrap: wrap;
+}
+
+.resume-document-header {
+  text-align: center;
+}
+
+.resume-document-headline {
+  margin-top: 0.25em;
+}
+
+.resume-document-contact,
+.resume-document-links {
+  margin-top: 0.45em;
+}
+
+.resume-document-links a {
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.resume-document-section {
+  margin-top: 1em;
+}
+
+.resume-document-section h3 {
+  margin-bottom: 0.35em;
+  padding-bottom: 0.15em;
+  border-bottom: 1px solid currentColor;
+  text-transform: uppercase;
+}
+
+.resume-document-section:not(:has(> h3)) {
+  padding-top: 0.35em;
+  border-top: 1px solid currentColor;
+}
+
+.resume-document-entry + .resume-document-entry {
+  margin-top: 0.8em;
+}
+
+.resume-document-prose,
+.resume-document-bullets {
+  margin-top: 0.3em;
+  white-space: pre-wrap;
+}
+
+.resume-document-bullets {
+  list-style: disc;
+  padding-inline-start: 1.25em;
+}
+
+.resume-document-bullets li + li {
+  margin-top: 0.2em;
+}
+
+.resume-paper-empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.65em;
+  padding: 4em 0.5em;
+  color: #586474;
+  text-align: center;
+}
+
+.resume-paper-empty p:first-of-type {
+  color: #20252d;
+  font-weight: 700;
+}
+
+@media screen and (min-width: 64rem) and (min-height: 34rem) {
+  .page-container:has(> .resume-builder) {
+    padding-block: 1.5rem;
+  }
+
+  body:has(.resume-builder) footer,
+  .resume-builder-jump {
+    display: none;
+  }
+
+  .resume-builder {
+    /* Account for workspace padding and the site header, including its border. */
+    height: calc(100dvh - 6.5rem - 1px);
+    gap: 1rem;
+  }
+
+  .resume-builder-panes {
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .resume-builder-form,
+  .resume-preview {
+    min-height: 0;
+  }
+
+  .resume-editor-scroll,
+  .resume-preview-scroll {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+  }
+}
+
+@page resume-builder {
+  size: A4;
+  margin: 15mm 17mm;
+}
+
+@media print {
+  body:has(.resume-builder) {
+    background: white !important;
+    overflow: visible !important;
+  }
+
+  body:has(.resume-builder) :not(:has(.resume-paper), .resume-paper, .resume-paper *) {
+    display: none !important;
+  }
+
+  body:has(.resume-builder) :has(.resume-paper) {
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  .resume-paper {
+    page: resume-builder;
+    aspect-ratio: auto;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .resume-document-header {
+    break-inside: avoid;
+  }
+
+  .resume-document-section h3,
+  .resume-document-entry h4,
+  .resume-document-meta {
+    break-after: avoid;
+  }
+
+  .resume-document-prose,
+  .resume-document-bullets li {
+    orphans: 2;
+    widows: 2;
+  }
+
+  body:has(.resume-builder) .resume-fullscreen {
+    display: none !important;
+  }
+}

@@ -6,7 +6,26 @@
  */
 const storageKey = 'jobfinder-theme'
 
-export const themeInitScript = `(function(){try{var t=localStorage.getItem('${storageKey}');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d)}catch(e){}})()`
+const darkPreference = '(prefers-color-scheme: dark)'
+
+export const themeInitScript = `(function(){
+  var root=document.documentElement;
+  var theme=root.dataset.theme;
+  if(!theme){try{theme=localStorage.getItem('${storageKey}')}catch(e){}}
+  root.classList.toggle('dark',theme==='dark'||((!theme||theme==='system')&&matchMedia('${darkPreference}').matches));
+})()`
+
+export function syncTheme(theme: 'light' | 'dark' | 'system') {
+  const preference = window.matchMedia(darkPreference)
+  function apply() {
+    document.documentElement.classList.toggle('dark', theme === 'dark' || (theme === 'system' && preference.matches))
+  }
+  apply()
+  if (theme === 'system') {
+    preference.addEventListener('change', apply)
+    return () => preference.removeEventListener('change', apply)
+  }
+}
 
 function persist(theme: 'light' | 'dark') {
   document.documentElement.classList.toggle('dark', theme === 'dark')

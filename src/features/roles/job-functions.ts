@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { getDb } from '~/db/client'
 import { jobReviews, jobs, resumes, users } from '~/db/schema'
 import { requireUser } from '~/features/auth/session.server'
+import { geminiKeyStatus } from '~/features/settings/gemini-key.server'
 import { env } from '~/lib/env'
 import { jobStatuses } from '~/lib/job-status'
 import { jobDraft, jobSearch, normalizeJobUrl, publicLink } from './job-input'
@@ -83,7 +84,8 @@ export const listSavedJobs = createServerFn({ method: 'GET' }).handler(async () 
     .where(eq(jobs.userId, userId))
     .orderBy(desc(jobs.createdAt))
   const [resume] = await db.select({ id: resumes.id }).from(resumes).where(eq(resumes.userId, userId))
-  return { rows, resumeId: resume?.id ?? null, reviewEnabled: Boolean(env.GEMINI_API_KEY) }
+  const { personal, shared } = await geminiKeyStatus(userId)
+  return { rows, resumeId: resume?.id ?? null, reviewEnabled: personal || shared }
 })
 
 export const updateJobStatus = createServerFn({ method: 'POST' })

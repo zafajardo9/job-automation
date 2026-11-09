@@ -85,6 +85,31 @@
   --neutral: #8a8a93;
 }
 
+:root[data-accent='teal'] {
+  --primary: #0f766e;
+  --primary-hover: #115e59;
+  --ring: var(--primary);
+}
+
+:root.dark[data-accent='teal'] {
+  --primary: #5eead4;
+  --primary-hover: #99f6e4;
+}
+
+:root[data-accent='plum'] {
+  --primary: #7e22ce;
+  --primary-hover: #6b21a8;
+  --ring: var(--primary);
+}
+
+:root.dark[data-accent='plum'] {
+  --primary: #d8b4fe;
+  --primary-hover: #e9d5ff;
+}
+
+:root[data-text-size='large'] { font-size: 112.5%; }
+:root[data-text-size='extra-large'] { font-size: 125%; }
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

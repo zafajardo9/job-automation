@@ -18,7 +18,9 @@ import { Route as WorkspaceIndexRouteImport } from './routes/workspace/index'
 import { Route as WorkspaceProfileRouteImport } from './routes/workspace/profile'
 import { Route as WorkspaceResumeRouteImport } from './routes/workspace/resume'
 import { Route as WorkspaceSavedRouteImport } from './routes/workspace/saved'
+import { Route as WorkspaceSettingsRouteImport } from './routes/workspace/settings'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as WorkspaceResumeBuilderRouteImport } from './routes/workspace/resume_.builder'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -65,10 +67,20 @@ const WorkspaceSavedRoute = WorkspaceSavedRouteImport.update({
   path: '/saved',
   getParentRoute: () => WorkspaceRoute,
 } as any)
+const WorkspaceSettingsRoute = WorkspaceSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => WorkspaceRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
+} as any)
+const WorkspaceResumeBuilderRoute = WorkspaceResumeBuilderRouteImport.update({
+  id: '/resume_/builder',
+  path: '/resume/builder',
+  getParentRoute: () => WorkspaceRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -80,8 +92,10 @@ export interface FileRoutesByFullPath {
   '/workspace/profile': typeof WorkspaceProfileRoute
   '/workspace/resume': typeof WorkspaceResumeRoute
   '/workspace/saved': typeof WorkspaceSavedRoute
+  '/workspace/settings': typeof WorkspaceSettingsRoute
   '/workspace/': typeof WorkspaceIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/workspace/resume/builder': typeof WorkspaceResumeBuilderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,8 +105,10 @@ export interface FileRoutesByTo {
   '/workspace/profile': typeof WorkspaceProfileRoute
   '/workspace/resume': typeof WorkspaceResumeRoute
   '/workspace/saved': typeof WorkspaceSavedRoute
+  '/workspace/settings': typeof WorkspaceSettingsRoute
   '/workspace': typeof WorkspaceIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/workspace/resume/builder': typeof WorkspaceResumeBuilderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,8 +120,10 @@ export interface FileRoutesById {
   '/workspace/profile': typeof WorkspaceProfileRoute
   '/workspace/resume': typeof WorkspaceResumeRoute
   '/workspace/saved': typeof WorkspaceSavedRoute
+  '/workspace/settings': typeof WorkspaceSettingsRoute
   '/workspace/': typeof WorkspaceIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/workspace/resume_/builder': typeof WorkspaceResumeBuilderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -118,8 +136,10 @@ export interface FileRouteTypes {
     | '/workspace/profile'
     | '/workspace/resume'
     | '/workspace/saved'
+    | '/workspace/settings'
     | '/workspace/'
     | '/api/auth/$'
+    | '/workspace/resume/builder'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -129,8 +149,10 @@ export interface FileRouteTypes {
     | '/workspace/profile'
     | '/workspace/resume'
     | '/workspace/saved'
+    | '/workspace/settings'
     | '/workspace'
     | '/api/auth/$'
+    | '/workspace/resume/builder'
   id:
     | '__root__'
     | '/'
@@ -141,8 +163,10 @@ export interface FileRouteTypes {
     | '/workspace/profile'
     | '/workspace/resume'
     | '/workspace/saved'
+    | '/workspace/settings'
     | '/workspace/'
     | '/api/auth/$'
+    | '/workspace/resume_/builder'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -219,12 +243,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkspaceSavedRouteImport
       parentRoute: typeof WorkspaceRoute
     }
+    '/workspace/settings': {
+      id: '/workspace/settings'
+      path: '/settings'
+      fullPath: '/workspace/settings'
+      preLoaderRoute: typeof WorkspaceSettingsRouteImport
+      parentRoute: typeof WorkspaceRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/workspace/resume_/builder': {
+      id: '/workspace/resume_/builder'
+      path: '/resume/builder'
+      fullPath: '/workspace/resume/builder'
+      preLoaderRoute: typeof WorkspaceResumeBuilderRouteImport
+      parentRoute: typeof WorkspaceRoute
     }
   }
 }
@@ -233,14 +271,18 @@ interface WorkspaceRouteChildren {
   WorkspaceProfileRoute: typeof WorkspaceProfileRoute
   WorkspaceResumeRoute: typeof WorkspaceResumeRoute
   WorkspaceSavedRoute: typeof WorkspaceSavedRoute
+  WorkspaceSettingsRoute: typeof WorkspaceSettingsRoute
   WorkspaceIndexRoute: typeof WorkspaceIndexRoute
+  WorkspaceResumeBuilderRoute: typeof WorkspaceResumeBuilderRoute
 }
 
 const WorkspaceRouteChildren: WorkspaceRouteChildren = {
   WorkspaceProfileRoute: WorkspaceProfileRoute,
   WorkspaceResumeRoute: WorkspaceResumeRoute,
   WorkspaceSavedRoute: WorkspaceSavedRoute,
+  WorkspaceSettingsRoute: WorkspaceSettingsRoute,
   WorkspaceIndexRoute: WorkspaceIndexRoute,
+  WorkspaceResumeBuilderRoute: WorkspaceResumeBuilderRoute,
 }
 
 const WorkspaceRouteWithChildren = WorkspaceRoute._addFileChildren(
