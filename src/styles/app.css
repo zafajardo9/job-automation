@@ -1,0 +1,213 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Genesis design tokens — see DESIGN.md.
+ * shadcn/ui variables are mapped onto the palette so every component
+ * inherits the design language instead of defining its own colors.
+ */
+:root {
+  --background: #fafafa;
+  --foreground: #0a0a0a;
+
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f4f4f5;
+  --secondary-foreground: #0a0a0a;
+
+  --muted: #f4f4f5;
+  --muted-foreground: #6b6b6b;
+
+  --accent: #f4f4f5;
+  --accent-foreground: #0a0a0a;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --success: #10b981;
+  --success-strong: #047857;
+  --warning: #f59e0b;
+  --warning-strong: #b45309;
+
+  --border: #e8e8ec;
+  --input: #e8e8ec;
+  --ring: #6366f1;
+
+  /* Reserved for the single brand highlight on the homepage. */
+  --brand: #20970b;
+  --neutral: #9c9c9c;
+}
+
+.dark {
+  --background: #0a0a0b;
+  --foreground: #fafafa;
+
+  --card: #141416;
+  --card-foreground: #fafafa;
+  --popover: #141416;
+  --popover-foreground: #fafafa;
+
+  --primary: #818cf8;
+  --primary-hover: #a5b4fc;
+  --primary-foreground: #0a0a0b;
+
+  --secondary: #1d1d21;
+  --secondary-foreground: #fafafa;
+
+  --muted: #1d1d21;
+  --muted-foreground: #9c9c9c;
+
+  --accent: #1d1d21;
+  --accent-foreground: #fafafa;
+
+  --destructive: #f87171;
+  --destructive-foreground: #0a0a0b;
+
+  --success: #34d399;
+  --success-strong: #6ee7b7;
+  --warning: #fbbf24;
+  --warning-strong: #fcd34d;
+
+  --border: #26262b;
+  --input: #26262b;
+  --ring: #818cf8;
+
+  --brand: #4ade80;
+  --neutral: #8a8a93;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-strong: var(--success-strong);
+  --color-warning: var(--warning);
+  --color-warning-strong: var(--warning-strong);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-neutral: var(--neutral);
+
+  /* Radii are fixed by the design system, not derived from --radius. */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+
+  --font-display: 'General Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
+  --text-display: clamp(2.75rem, 6.5vw, 4.5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.04em;
+  --text-display--font-weight: 700;
+
+  --text-headline: clamp(2.25rem, 5vw, 3.75rem);
+  --text-headline--line-height: 1.06;
+  --text-headline--letter-spacing: -0.035em;
+  --text-headline--font-weight: 700;
+
+  --text-heading: 2rem;
+  --text-heading--line-height: 1.15;
+  --text-heading--letter-spacing: -0.03em;
+  --text-heading--font-weight: 600;
+
+  --text-subhead: 1.5rem;
+  --text-subhead--line-height: 1.3;
+  --text-subhead--letter-spacing: -0.02em;
+
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.65;
+
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.5;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.45;
+
+  --text-overline: 0.6875rem;
+  --text-overline--line-height: 1.4;
+  --text-overline--letter-spacing: 0.12em;
+
+  --shadow-lift: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 4px 12px
+    color-mix(in srgb, var(--primary) 35%, transparent);
+
+  --container-page: 1280px;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans text-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-balance;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-foreground;
+  }
+
+  :focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--ring) 20%, transparent);
+    outline-offset: 1px;
+  }
+}
+
+@utility page-container {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* The dot grid is the design system's single decorative element. */
+@utility dot-grid {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    var(--border) 1px,
+    transparent 0
+  );
+  background-size: 16px 16px;
+}

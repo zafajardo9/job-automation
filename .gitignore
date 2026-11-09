@@ -1,0 +1,22 @@
+node_modules
+.output
+.tanstack
+.nitro
+dist
+
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / OS
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# drizzle studio / scratch
+.drizzle
